@@ -1,5 +1,5 @@
 % =================================================================
-% SETUP.TEX - ESTRUTURA, ESTILO E IDENTIDADE VISUAL UFVJM
+% SETUP.TEX - ESTRUTURA ORIGINAL COM INCREMENTOS DE UI
 % =================================================================
 
 % PACOTES E FONTES
@@ -21,9 +21,10 @@
 \setbeamercolor{background canvas}{bg=white}
 \setbeamersize{text margin left=1.5cm, text margin right=1.5cm}
 
-% ESTILO DE LISTAS E REFERÊNCIAS
+% ESTILO DE LISTAS (INCREMENTADO)
 \setbeamercolor{itemize item}{fg=ufvjmBlue}
 \setbeamercolor{itemize subitem}{fg=ufvjmGreen}
+\setbeamertemplate{itemize item}{\small\raise0.5pt\hbox{\begin{tikzpicture} \fill[ufvjmBlue] (0,0) -- (0.15,0) -- (0.2,0.15) -- (0.05,0.15) -- cycle; \end{tikzpicture}}}
 \setbeamercolor{section in toc}{fg=ufvjmDark}
 \setbeamercolor{subsection in toc}{fg=ufvjmSlate}
 
@@ -31,17 +32,39 @@
 \setbeamertemplate{section in toc}{\inserttocsectionnumber.~ \inserttocsection}
 \setbeamertemplate{subsection in toc}{\hspace{1.2em}\inserttocsectionnumber.\inserttocsubsectionnumber.~ \inserttocsubsection}
 
-% VARIÁVEIS DE CONTROLE (Ponte Main -> Setup)
+% VARIÁVEIS DE CONTROLE
 \newcommand{\titulo}[1]{\title{#1}\def\inserttitulo{#1}} 
 \newcommand{\tipoTrabalho}[1]{\def\inserttipo{#1}}
 \newcommand{\estudantes}[1]{\def\insertestudantes{#1}}
 \newcommand{\caminhoLogo}[1]{\def\insertlogo{#1}}
 
-% HEADER DAS PÁGINAS INTERNAS
+% NOVO: COMANDO PARA SLIDE DE TRANSIÇÃO (BREAK ESTATICO)
+\newcommand{\secao}[1]{
+    \section{#1}
+    \begin{frame}[plain]
+        \fill[ufvjmDark] (current page.north west) rectangle (current page.south east);
+        \begin{tikzpicture}[remember picture,overlay]
+            \node[anchor=center] at (current page.center) {
+                \begin{minipage}{0.8\paperwidth}
+                    \centering
+                    {\color{ufvjmGreen}\fontsize{10}{10}\selectfont\uppercase{\textbf{Tópico}}}\\[0.4cm]
+                    {\color{white}\fontsize{24}{28}\selectfont\textbf{#1}}
+                \end{minipage}
+            };
+        \end{tikzpicture}
+    \end{frame}
+}
+
+% HEADER DAS PÁGINAS INTERNAS (COM BARRA DE PROGRESSO)
 \setbeamertemplate{frametitle}{
     \nointerlineskip
     \begin{tikzpicture}[remember picture,overlay]
         \shade[left color=ufvjmBlue, right color=ufvjmGreen] (current page.north west) rectangle ([yshift=-1cm]current page.north east);
+        
+        % Barra de progresso (opcional, sutil)
+        \fill[white!30] ([yshift=-1cm]current page.north west) rectangle ([yshift=-1.05cm, xshift=\paperwidth]current page.north west);
+        \fill[ufvjmGreen] ([yshift=-1cm]current page.north west) rectangle ([yshift=-1.05cm, xshift=\insertframenumber/\inserttotalframenumber*\paperwidth]current page.north west);
+
         \node[anchor=west, xshift=1.5cm, yshift=-0.5cm, inner sep=0pt] at (current page.north west) {
             \begin{minipage}{0.75\paperwidth}
                 \raggedright\fontsize{14}{14}\selectfont\color{white}\textbf{\insertframetitle}
@@ -64,29 +87,21 @@
     \end{tikzpicture}
 }
 
-% ESTRUTURA DA CAPA (LOGO EMOLDURADA E TÍTULOS FLUIDOS)
+% ESTRUTURA DA CAPA
 \newcommand{\gerarCapa}{
     \begin{frame}[plain]
         \hypersetup{pdfborder={0 0 0}, hidelinks}
         \begin{tikzpicture}[remember picture,overlay]
-            % 1. Listras laterais
             \shade[top color=ufvjmBlue, bottom color=ufvjmGreen] (current page.north west) rectangle ([xshift=0.15cm]current page.south west);
             \shade[top color=ufvjmGreen, bottom color=ufvjmBlue] ([xshift=-0.1cm]current page.north east) rectangle (current page.south east);
             
-            % 2. Logo e Moldura Lateral
             \node[anchor=north] (logo) at ($(current page.north) + (0,-0.8cm)$) {
                 \includegraphics[height=0.8cm]{\insertlogo}
             };
             
-            % Linha Esquerda
-            \draw[gray!30, line width=0.5pt] 
-                ([xshift=1.5cm]current page.north west) ++(0,-1.2cm) -- ([xshift=-1cm]logo.west);
-                
-            % Linha Direita
-            \draw[gray!30, line width=0.5pt] 
-                ([xshift=1cm]logo.east) -- ([xshift=-1.5cm, yshift=-1.2cm]current page.north east);
+            \draw[gray!30, line width=0.5pt] ([xshift=1.5cm]current page.north west) ++(0,-1.2cm) -- ([xshift=-1cm]logo.west);
+            \draw[gray!30, line width=0.5pt] ([xshift=1cm]logo.east) -- ([xshift=-1.5cm, yshift=-1.2cm]current page.north east);
 
-            % 3. Título e Subtítulo (Aproximação Fluida)
             \node[anchor=center, inner sep=0pt] at ($(current page.center) + (0,0.1cm)$) {
                 \begin{minipage}{0.85\paperwidth}
                     \centering
@@ -95,7 +110,6 @@
                 \end{minipage}
             };
 
-            % 4. Identificação (Autores)
             \node[anchor=south west, xshift=1.5cm, yshift=1.2cm] at (current page.south west) {
                 \begin{minipage}{0.85\paperwidth}
                     \raggedright
