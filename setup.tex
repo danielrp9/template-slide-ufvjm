@@ -1,0 +1,103 @@
+% =================================================================
+% SETUP.TEX - ESTRUTURA COM SUPORTE A BIBTEX
+% =================================================================
+
+% PACOTES E FONTES
+\usepackage[brazil]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{montserrat} 
+\renewcommand{\familydefault}{\sfdefault} 
+\usepackage{tikz}
+\usetikzlibrary{calc, shadows, shadings}
+
+% CONFIGURAÇÃO DE REFERÊNCIAS (BIBLATEX)
+\usepackage[style=abnt, backend=biber]{biblatex}
+\addbibresource{referencias.bib} % Nome do seu arquivo .bib
+
+% DESIGN SYSTEM (UFVJM)
+\definecolor{ufvjmBlue}{HTML}{005EB8}
+\definecolor{ufvjmGreen}{HTML}{A7CF3A}
+\definecolor{ufvjmDark}{HTML}{1E293B} 
+\definecolor{ufvjmSlate}{HTML}{64748B} 
+
+% CONFIGURAÇÕES DE LAYOUT
+\setbeamertemplate{navigation symbols}{}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamersize{text margin left=1.5cm, text margin right=1.5cm}
+
+% ESTILO DE LISTAS E REFERÊNCIAS
+\setbeamercolor{itemize item}{fg=ufvjmBlue}
+\setbeamercolor{section in toc}{fg=ufvjmDark}
+\setbeamerfont{bibliography entry author}{size=\scriptsize, series=\bfseries}
+\setbeamerfont{bibliography entry title}{size=\scriptsize}
+\setbeamerfont{bibliography entry note}{size=\tiny}
+
+% CONFIGURAÇÃO DO SUMÁRIO (NUMERADO)
+\setbeamertemplate{section in toc}{\inserttocsectionnumber.~ \inserttocsection}
+
+% VARIÁVEIS DE CONTROLE
+\newcommand{\titulo}[1]{\title{#1}\def\inserttitulo{#1}} 
+\newcommand{\tipoTrabalho}[1]{\def\inserttipo{#1}}
+\newcommand{\estudantes}[1]{\def\insertestudantes{#1}}
+\newcommand{\caminhoLogo}[1]{\def\insertlogo{#1}}
+
+% HEADER DAS PÁGINAS INTERNAS
+\setbeamertemplate{frametitle}{
+    \nointerlineskip
+    \begin{tikzpicture}[remember picture,overlay]
+        \shade[left color=ufvjmBlue, right color=ufvjmGreen] (current page.north west) rectangle ([yshift=-1cm]current page.north east);
+        \node[anchor=west, xshift=1.5cm, yshift=-0.5cm, inner sep=0pt] at (current page.north west) {
+            \begin{minipage}{0.75\paperwidth}
+                \raggedright\fontsize{14}{14}\selectfont\color{white}\textbf{\insertframetitle}
+            \end{minipage}
+        };
+    \end{tikzpicture}
+    \vspace{1.2cm}
+}
+
+% RODAPÉ
+\setbeamertemplate{footline}{
+    \begin{tikzpicture}[remember picture,overlay]
+        \draw[gray!15, line width=0.5pt] (current page.south west) ++(1.5cm,0.8cm) -- ([xshift=-1.5cm, yshift=0.8cm]current page.south east);
+        \node[anchor=south west, xshift=1.5cm, yshift=0.35cm] at (current page.south west) {
+            \fontsize{5}{5}\selectfont\color{ufvjmSlate}\uppercase{UFVJM \ | \ \insertshorttitle}
+        };
+        \node[anchor=south east, xshift=-1.5cm, yshift=0.35cm] at (current page.south east) {
+            \fontsize{6}{6}\selectfont\color{ufvjmSlate}\textbf{\insertframenumber \ / \inserttotalframenumber}
+        };
+    \end{tikzpicture}
+}
+
+% ESTRUTURA DA CAPA
+\newcommand{\gerarCapa}{
+    \begin{frame}[plain]
+        \hypersetup{pdfborder={0 0 0}, hidelinks}
+        \begin{tikzpicture}[remember picture,overlay]
+            \shade[top color=ufvjmBlue, bottom color=ufvjmGreen] (current page.north west) rectangle ([xshift=0.15cm]current page.south west);
+            \shade[top color=ufvjmGreen, bottom color=ufvjmBlue] ([xshift=-0.1cm]current page.north east) rectangle (current page.south east);
+            
+            \node[anchor=north] (logo) at ($(current page.north) + (0,-0.8cm)$) {
+                \includegraphics[height=0.8cm]{\insertlogo}
+            };
+            
+            \draw[gray!30, line width=0.5pt] ([xshift=1.5cm]current page.north west) ++(0,-1.2cm) -- ([xshift=-1cm]logo.west);
+            \draw[gray!30, line width=0.5pt] ([xshift=1cm]logo.east) -- ([xshift=-1.5cm, yshift=-1.2cm]current page.north east);
+
+            \node[anchor=center, inner sep=0pt] at ($(current page.center) + (0,0.1cm)$) {
+                \begin{minipage}{0.85\paperwidth}
+                    \centering
+                    {\color{ufvjmBlue}\fontsize{8}{8}\selectfont\uppercase{\textbf{\inserttipo}}}\\[0.5cm] 
+                    {\fontsize{28}{32}\selectfont\color{ufvjmDark}\textbf{\inserttitulo}}
+                \end{minipage}
+            };
+
+            \node[anchor=south west, xshift=1.5cm, yshift=1.2cm] at (current page.south west) {
+                \begin{minipage}{0.85\paperwidth}
+                    \raggedright
+                    {\fontsize{6}{6}\selectfont\color{ufvjmSlate}\uppercase{Discentes:}}\\[0.15cm]
+                    {\small\color{ufvjmDark}\textbf{\insertestudantes}}
+                \end{minipage}
+            };
+        \end{tikzpicture}
+    \end{frame}
+}
