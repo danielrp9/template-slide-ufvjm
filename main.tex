@@ -1,120 +1,42 @@
-% =================================================================
-% SETUP.TEX - ESTRUTURA COM ASSINATURA EM LINHA ÚNICA
-% =================================================================
+\documentclass[aspectratio=169]{beamer}
 
-% PACOTES E FONTES
-\usepackage[brazil]{babel}
-\usepackage[T1]{fontenc}
-\usepackage{montserrat} 
-\renewcommand{\familydefault}{\sfdefault} 
-\usepackage{tikz}
-\usetikzlibrary{calc, shadows, shadings}
+% 1. Importa a estrutura estilizada
+\input{setup}
 
-% DESIGN SYSTEM (UFVJM)
-\definecolor{ufvjmBlue}{HTML}{005EB8}
-\definecolor{ufvjmGreen}{HTML}{A7CF3A}
-\definecolor{ufvjmDark}{HTML}{1E293B} 
-\definecolor{ufvjmSlate}{HTML}{64748B} 
+% 2. Preenche os dados do seu trabalho
+\titulo{Tamplate de Slide UFVJM}
+\tipoTrabalho{Assunto, Disciplina ou Curso}
+\caminhoLogo{assets/ufvjm.png} 
+\estudantes{Daniel Rodrigues Pereira}
 
-% CONFIGURAÇÕES DE LAYOUT
-\setbeamertemplate{navigation symbols}{}
-\setbeamercolor{background canvas}{bg=white}
-\setbeamersize{text margin left=1.5cm, text margin right=1.5cm}
+\begin{document}
 
-% ESTILO DE LISTAS
-\setbeamercolor{itemize item}{fg=ufvjmBlue}
-\setbeamercolor{itemize subitem}{fg=ufvjmGreen}
-\setbeamertemplate{itemize item}{\small\raise0.5pt\hbox{\begin{tikzpicture} \fill[ufvjmBlue] (0,0) -- (0.15,0) -- (0.2,0.15) -- (0.05,0.15) -- cycle; \end{tikzpicture}}}
-\setbeamercolor{section in toc}{fg=ufvjmDark}
+% Slide de Capa
+\gerarCapa
 
-% VARIÁVEIS DE CONTROLE
-\newcommand{\titulo}[1]{\title{#1}\def\inserttitulo{#1}} 
-\newcommand{\tipoTrabalho}[1]{\def\inserttipo{#1}}
-\newcommand{\estudantes}[1]{\def\insertestudantes{#1}}
-\newcommand{\caminhoLogo}[1]{\def\insertlogo{#1}}
+% Sumário (Gerado e numerado automaticamente)
+\begin{frame}{Sumário}
+    \tableofcontents
+\end{frame}
 
-% COMANDO PARA SLIDE DE TRANSIÇÃO
-\newcommand{\secao}[1]{
-    \section{#1}
-    \begin{frame}[plain]
-        \begin{tikzpicture}[remember picture,overlay]
-            \fill[white] (current page.north west) rectangle (current page.south east);
-            \fill[ufvjmBlue] (current page.north west) rectangle ([xshift=0.5cm]current page.south west);
-            \node[anchor=center] at (current page.center) {
-                \begin{minipage}{0.8\paperwidth}
-                    \centering
-                    {\color{ufvjmSlate}\fontsize{10}{10}\selectfont\uppercase{\textbf{Tópico}}}\\[0.4cm]
-                    {\color{ufvjmDark}\fontsize{24}{28}\selectfont\textbf{#1}}
-                \end{minipage}
-            };
-        \end{tikzpicture}
-    \end{frame}
-}
+\section{Introdução}
+\begin{frame}{Introdução}
+    O objetivo deste trabalho é discutir a segurança em redes...
+\end{frame}
 
-% HEADER DAS PÁGINAS INTERNAS
-\setbeamertemplate{frametitle}{
-    \nointerlineskip
-    \begin{tikzpicture}[remember picture,overlay]
-        \shade[left color=ufvjmBlue, right color=ufvjmGreen] (current page.north west) rectangle ([yshift=-1cm]current page.north east);
-        \node[anchor=west, xshift=1.5cm, yshift=-0.5cm, inner sep=0pt] at (current page.north west) {
-            \begin{minipage}{0.75\paperwidth}
-                \raggedright\fontsize{14}{14}\selectfont\color{white}\textbf{\insertframetitle}
-            \end{minipage}
-        };
-    \end{tikzpicture}
-    \vspace{1.2cm}
-}
+\section{Desenvolvimento}
+\begin{frame}{Metodologia}
+    A análise técnica focou em protocolos de auditoria...
+\end{frame}
 
-% RODAPÉ DAS PÁGINAS INTERNAS (SEM LOGO REPETIDA)
-\setbeamertemplate{footline}{
-    \begin{tikzpicture}[remember picture,overlay]
-        \draw[gray!15, line width=0.5pt] ([xshift=1.5cm, yshift=0.8cm]current page.south west) -- ([xshift=-1.5cm, yshift=0.8cm]current page.south east);
-        \node[anchor=south west, xshift=1.5cm, yshift=0.35cm] at (current page.south west) {
-            \fontsize{5}{5}\selectfont\color{ufvjmSlate}\textbf{\insertshorttitle}
-        };
-        \node[anchor=south east, xshift=-1.5cm, yshift=0.35cm] at (current page.south east) {
-            \fontsize{6}{6}\selectfont\color{ufvjmSlate}\textbf{\insertframenumber \ / \inserttotalframenumber}
-        };
-    \end{tikzpicture}
-}
+\section{Referências}
+\begin{frame}{Referências}
+\fontsize{8}{10}\selectfont
+\begin{itemize}
+    \item \textbf{STALLINGS, William.} \textit{Criptografia e Segurança de Redes}. 6. ed. São Paulo: Pearson, 2015.
+    \item \textbf{BRASIL.} \textit{Lei nº 14.063, de 23 de setembro de 2020}. Brasília, DF, 2020.
+    \item \textbf{SOBRENOME, Nome.} \textit{Título do Livro em Itálico}. Cidade: Editora, 2026.
+\end{itemize}
+\end{frame}
 
-% ESTRUTURA DA CAPA COM ASSINATURA EM LINHA ÚNICA
-\newcommand{\gerarCapa}{
-    \begin{frame}[plain]
-        \hypersetup{pdfborder={0 0 0}, hidelinks}
-        \begin{tikzpicture}[remember picture,overlay]
-            \shade[top color=ufvjmBlue, bottom color=ufvjmGreen] (current page.north west) rectangle ([xshift=0.15cm]current page.south west);
-            \shade[top color=ufvjmGreen, bottom color=ufvjmBlue] ([xshift=-0.1cm]current page.north east) rectangle (current page.south east);
-            
-            \node[anchor=north] (logo) at ($(current page.north) + (0,-0.8cm)$) {
-                \includegraphics[height=0.8cm]{\insertlogo}
-            };
-            
-            \draw[gray!30, line width=0.5pt] ([xshift=1.5cm]current page.north west) ++(0,-1.2cm) -- ([xshift=-1cm]logo.west);
-            \draw[gray!30, line width=0.5pt] ([xshift=1cm]logo.east) -- ([xshift=-1.5cm, yshift=-1.2cm]current page.north east);
-
-            \node[anchor=center, inner sep=0pt] at ($(current page.center) + (0,0.2cm)$) {
-                \begin{minipage}{0.85\paperwidth}
-                    \centering
-                    {\color{ufvjmBlue}\fontsize{8}{8}\selectfont\uppercase{\textbf{\inserttipo}}}\\[0.5cm] 
-                    {\fontsize{28}{32}\selectfont\color{ufvjmDark}\textbf{\inserttitulo}}
-                \end{minipage}
-            };
-
-            \node[anchor=south west, xshift=1.5cm, yshift=1.6cm] at (current page.south west) {
-                \begin{minipage}{0.85\paperwidth}
-                    \raggedright
-                    {\fontsize{6}{6}\selectfont\color{ufvjmSlate}\uppercase{Discentes:}}\\[0.15cm]
-                    {\small\color{ufvjmDark}\textbf{\insertestudantes}}
-                \end{minipage}
-            };
-
-            % ASSINATURA EM LINHA ÚNICA (RODAPÉ DA CAPA)
-            \draw[ufvjmBlue!20, line width=0.5pt] ([xshift=1.5cm, yshift=1cm]current page.south west) -- ([xshift=-1.5cm, yshift=1cm]current page.south east);
-            \node[anchor=south west, xshift=1.5cm, yshift=0.5cm] at (current page.south west) {
-                \fontsize{6}{6}\selectfont\color{ufvjmSlate}
-                \textbf{Desenvolvido por Daniel Rodrigues} \ | \ danielrodrigues878@hotmail.com\ | \ Sistemas de Informação \textperiodcentered \ UFVJM
-            };
-        \end{tikzpicture}
-    \end{frame}
-}
+\end{document}
