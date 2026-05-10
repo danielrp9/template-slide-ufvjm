@@ -1,5 +1,5 @@
 % =================================================================
-% SETUP.TEX - ESTRUTURA COM ASSINATURA EM LINHA ÚNICA
+% SETUP.TEX - ESTRUTURA ORIGINAL COM BARRA DE STATUS
 % =================================================================
 
 % PACOTES E FONTES
@@ -51,11 +51,17 @@
     \end{frame}
 }
 
-% HEADER DAS PÁGINAS INTERNAS
+% HEADER DAS PÁGINAS INTERNAS (COM BARRA DE STATUS)
 \setbeamertemplate{frametitle}{
     \nointerlineskip
     \begin{tikzpicture}[remember picture,overlay]
         \shade[left color=ufvjmBlue, right color=ufvjmGreen] (current page.north west) rectangle ([yshift=-1cm]current page.north east);
+        
+        % BARRA DE STATUS/PROGRESSO
+        \fill[white!30] ([yshift=-1cm]current page.north west) rectangle ([yshift=-1.05cm, xshift=\paperwidth]current page.north west);
+        \pgfmathsetmacro{\progress}{\insertframenumber/\inserttotalframenumber}
+        \fill[ufvjmGreen] ([yshift=-1cm]current page.north west) rectangle ([yshift=-1.05cm, xshift=\progress*\paperwidth]current page.north west);
+
         \node[anchor=west, xshift=1.5cm, yshift=-0.5cm, inner sep=0pt] at (current page.north west) {
             \begin{minipage}{0.75\paperwidth}
                 \raggedright\fontsize{14}{14}\selectfont\color{white}\textbf{\insertframetitle}
@@ -113,7 +119,7 @@
             \draw[ufvjmBlue!20, line width=0.5pt] ([xshift=1.5cm, yshift=1cm]current page.south west) -- ([xshift=-1.5cm, yshift=1cm]current page.south east);
             \node[anchor=south west, xshift=1.5cm, yshift=0.5cm] at (current page.south west) {
                 \fontsize{6}{6}\selectfont\color{ufvjmSlate}
-                \textbf{Desenvolvido por Daniel Rodrigues} \ | \ danielrodrigues878@hotmail.com\ | \ Sistemas de Informação \textperiodcentered \ UFVJM
+                \textbf{Desenvolvido por Daniel Rodrigues} \ | \ danielrodrigues878@hotmail.com \ | \ Sistemas de Informação \textperiodcentered \ UFVJM
             };
         \end{tikzpicture}
     \end{frame}
