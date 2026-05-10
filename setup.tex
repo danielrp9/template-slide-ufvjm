@@ -1,5 +1,5 @@
 % =================================================================
-% SETUP.TEX - ESTRUTURA ORIGINAL COM INCREMENTOS DE UI
+% SETUP.TEX - ESTRUTURA COM ASSINATURA EM LINHA ÚNICA
 % =================================================================
 
 % PACOTES E FONTES
@@ -21,16 +21,11 @@
 \setbeamercolor{background canvas}{bg=white}
 \setbeamersize{text margin left=1.5cm, text margin right=1.5cm}
 
-% ESTILO DE LISTAS (INCREMENTADO)
+% ESTILO DE LISTAS
 \setbeamercolor{itemize item}{fg=ufvjmBlue}
 \setbeamercolor{itemize subitem}{fg=ufvjmGreen}
 \setbeamertemplate{itemize item}{\small\raise0.5pt\hbox{\begin{tikzpicture} \fill[ufvjmBlue] (0,0) -- (0.15,0) -- (0.2,0.15) -- (0.05,0.15) -- cycle; \end{tikzpicture}}}
 \setbeamercolor{section in toc}{fg=ufvjmDark}
-\setbeamercolor{subsection in toc}{fg=ufvjmSlate}
-
-% CONFIGURAÇÃO DO SUMÁRIO (NUMERADO)
-\setbeamertemplate{section in toc}{\inserttocsectionnumber.~ \inserttocsection}
-\setbeamertemplate{subsection in toc}{\hspace{1.2em}\inserttocsectionnumber.\inserttocsubsectionnumber.~ \inserttocsubsection}
 
 % VARIÁVEIS DE CONTROLE
 \newcommand{\titulo}[1]{\title{#1}\def\inserttitulo{#1}} 
@@ -38,33 +33,29 @@
 \newcommand{\estudantes}[1]{\def\insertestudantes{#1}}
 \newcommand{\caminhoLogo}[1]{\def\insertlogo{#1}}
 
-% NOVO: COMANDO PARA SLIDE DE TRANSIÇÃO (BREAK ESTATICO)
+% COMANDO PARA SLIDE DE TRANSIÇÃO
 \newcommand{\secao}[1]{
     \section{#1}
     \begin{frame}[plain]
-        \fill[ufvjmDark] (current page.north west) rectangle (current page.south east);
         \begin{tikzpicture}[remember picture,overlay]
+            \fill[white] (current page.north west) rectangle (current page.south east);
+            \fill[ufvjmBlue] (current page.north west) rectangle ([xshift=0.5cm]current page.south west);
             \node[anchor=center] at (current page.center) {
                 \begin{minipage}{0.8\paperwidth}
                     \centering
-                    {\color{ufvjmGreen}\fontsize{10}{10}\selectfont\uppercase{\textbf{Tópico}}}\\[0.4cm]
-                    {\color{white}\fontsize{24}{28}\selectfont\textbf{#1}}
+                    {\color{ufvjmSlate}\fontsize{10}{10}\selectfont\uppercase{\textbf{Tópico}}}\\[0.4cm]
+                    {\color{ufvjmDark}\fontsize{24}{28}\selectfont\textbf{#1}}
                 \end{minipage}
             };
         \end{tikzpicture}
     \end{frame}
 }
 
-% HEADER DAS PÁGINAS INTERNAS (COM BARRA DE PROGRESSO)
+% HEADER DAS PÁGINAS INTERNAS
 \setbeamertemplate{frametitle}{
     \nointerlineskip
     \begin{tikzpicture}[remember picture,overlay]
         \shade[left color=ufvjmBlue, right color=ufvjmGreen] (current page.north west) rectangle ([yshift=-1cm]current page.north east);
-        
-        % Barra de progresso (opcional, sutil)
-        \fill[white!30] ([yshift=-1cm]current page.north west) rectangle ([yshift=-1.05cm, xshift=\paperwidth]current page.north west);
-        \fill[ufvjmGreen] ([yshift=-1cm]current page.north west) rectangle ([yshift=-1.05cm, xshift=\insertframenumber/\inserttotalframenumber*\paperwidth]current page.north west);
-
         \node[anchor=west, xshift=1.5cm, yshift=-0.5cm, inner sep=0pt] at (current page.north west) {
             \begin{minipage}{0.75\paperwidth}
                 \raggedright\fontsize{14}{14}\selectfont\color{white}\textbf{\insertframetitle}
@@ -74,12 +65,12 @@
     \vspace{1.2cm}
 }
 
-% RODAPÉ
+% RODAPÉ DAS PÁGINAS INTERNAS (SEM LOGO REPETIDA)
 \setbeamertemplate{footline}{
     \begin{tikzpicture}[remember picture,overlay]
-        \draw[gray!15, line width=0.5pt] (current page.south west) ++(1.5cm,0.8cm) -- ([xshift=-1.5cm, yshift=0.8cm]current page.south east);
+        \draw[gray!15, line width=0.5pt] ([xshift=1.5cm, yshift=0.8cm]current page.south west) -- ([xshift=-1.5cm, yshift=0.8cm]current page.south east);
         \node[anchor=south west, xshift=1.5cm, yshift=0.35cm] at (current page.south west) {
-            \fontsize{5}{5}\selectfont\color{ufvjmSlate}\uppercase{UFVJM \ | \ \insertshorttitle}
+            \fontsize{5}{5}\selectfont\color{ufvjmSlate}\textbf{\insertshorttitle}
         };
         \node[anchor=south east, xshift=-1.5cm, yshift=0.35cm] at (current page.south east) {
             \fontsize{6}{6}\selectfont\color{ufvjmSlate}\textbf{\insertframenumber \ / \inserttotalframenumber}
@@ -87,7 +78,7 @@
     \end{tikzpicture}
 }
 
-% ESTRUTURA DA CAPA
+% ESTRUTURA DA CAPA COM ASSINATURA EM LINHA ÚNICA
 \newcommand{\gerarCapa}{
     \begin{frame}[plain]
         \hypersetup{pdfborder={0 0 0}, hidelinks}
@@ -102,7 +93,7 @@
             \draw[gray!30, line width=0.5pt] ([xshift=1.5cm]current page.north west) ++(0,-1.2cm) -- ([xshift=-1cm]logo.west);
             \draw[gray!30, line width=0.5pt] ([xshift=1cm]logo.east) -- ([xshift=-1.5cm, yshift=-1.2cm]current page.north east);
 
-            \node[anchor=center, inner sep=0pt] at ($(current page.center) + (0,0.1cm)$) {
+            \node[anchor=center, inner sep=0pt] at ($(current page.center) + (0,0.2cm)$) {
                 \begin{minipage}{0.85\paperwidth}
                     \centering
                     {\color{ufvjmBlue}\fontsize{8}{8}\selectfont\uppercase{\textbf{\inserttipo}}}\\[0.5cm] 
@@ -110,12 +101,19 @@
                 \end{minipage}
             };
 
-            \node[anchor=south west, xshift=1.5cm, yshift=1.2cm] at (current page.south west) {
+            \node[anchor=south west, xshift=1.5cm, yshift=1.6cm] at (current page.south west) {
                 \begin{minipage}{0.85\paperwidth}
                     \raggedright
                     {\fontsize{6}{6}\selectfont\color{ufvjmSlate}\uppercase{Discentes:}}\\[0.15cm]
                     {\small\color{ufvjmDark}\textbf{\insertestudantes}}
                 \end{minipage}
+            };
+
+            % ASSINATURA EM LINHA ÚNICA (RODAPÉ DA CAPA)
+            \draw[ufvjmBlue!20, line width=0.5pt] ([xshift=1.5cm, yshift=1cm]current page.south west) -- ([xshift=-1.5cm, yshift=1cm]current page.south east);
+            \node[anchor=south west, xshift=1.5cm, yshift=0.5cm] at (current page.south west) {
+                \fontsize{6}{6}\selectfont\color{ufvjmSlate}
+                \textbf{Desenvolvido por Daniel Rodrigues} \ | \ danielrodrigues878@hotmail.com\ | \ Sistemas de Informação \textperiodcentered \ UFVJM
             };
         \end{tikzpicture}
     \end{frame}
